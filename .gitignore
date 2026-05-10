@@ -1,0 +1,54 @@
+# ── Dependencies ──────────────────────────────────────────────────────────────
+node_modules/
+frontend/node_modules/
+
+# ── Build output ──────────────────────────────────────────────────────────────
+dist/
+frontend/dist/
+build/
+
+# ── Python (old backend) ──────────────────────────────────────────────────────
+backend/venv/
+backend/__pycache__/
+backend/app/**/__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# ── Environment & secrets ─────────────────────────────────────────────────────
+.env
+.env.local
+.env.*.local
+*.env
+
+# ── OS files ──────────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ── Editor ────────────────────────────────────────────────────────────────────
+.vscode/settings.json
+.vscode/launch.json
+.idea/
+*.swp
+*.swo
+
+# ── Logs ──────────────────────────────────────────────────────────────────────
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ── Test / temp ───────────────────────────────────────────────────────────────
+coverage/
+.nyc_output/
+_test_*.mjs
+
+# ── Excel shift reports (real operational data — keep off GitHub) ─────────────
+*.xlsx
+*.xls
+*.csv
+
+# ── Kiro IDE ──────────────────────────────────────────────────────────────────
+.kiro/

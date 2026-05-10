@@ -1,0 +1,26 @@
+{
+  "name": "sre-kpi-generator",
+  "version": "2.0.0",
+  "description": "SRE KPI Generator — unified Node.js + React app",
+  "type": "module",
+  "scripts": {
+    "dev": "node src/server/index.js",
+    "build": "vite build",
+    "start": "node src/server/index.js",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "html2canvas": "^1.4.1",
+    "multer": "^2.1.1",
+    "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.3.0",
+    "@vitejs/plugin-react": "^4.3.4",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "tailwindcss": "^4.3.0",
+    "vite": "^5.4.0"
+  }
+}

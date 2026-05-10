@@ -1,0 +1,44 @@
+@import "tailwindcss";
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', 'SF Pro Display', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  margin: 0;
+}
+
+/* Scrollbar — adapts via JS inline styles on the root */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--scroll-thumb, #3a3330); border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: var(--scroll-thumb-hover, #453f3a); }
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: var(--date-icon-filter, invert(0.5) sepia(0.3));
+  cursor: pointer;
+  opacity: 0.6;
+}
+input[type="date"]::-webkit-calendar-picker-indicator:hover { opacity: 1; }
+
+.fade-in  { animation: fadeIn  0.18s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.slide-up { animation: slideUp 0.22s cubic-bezier(0.16, 1, 0.3, 1) both; }
+
+@keyframes fadeIn  { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+.nav-active::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 50%;
+  transform: translateY(-50%);
+  width: 3px; height: 14px;
+  border-radius: 0 2px 2px 0;
+  background: var(--nav-dot, #e8a020);
+}
+
+.tabular { font-variant-numeric: tabular-nums; }
+.kpi-table tbody tr:last-child td { border-bottom: none; }
+
+/* Theme toggle animation */
+.theme-toggle { transition: background 0.25s, border-color 0.25s; }
