@@ -37,46 +37,48 @@ export default function KpiTable({ title, data, filename, accent = 'amber' }) {
         </div>
       </div>
 
-      {/* Table */}
+      {/* Table — Grid Table 3 · Accent 1 (Office blue) */}
       <div style={{ overflowX: 'auto' }}>
         <table ref={tableRef} className="kpi-table" style={{ width: '100%', borderCollapse: 'collapse' }}>
           <thead>
-            <tr style={{ background: T.id === 'dark' ? 'rgba(0,0,0,0.12)' : T.surface2 }}>
+            <tr style={{ background: '#4472C4' }}>
               {Object.keys(data[0]).map(key => (
-                <th key={key} style={{ padding: '10px 20px', textAlign: 'left', fontSize: 11, fontWeight: 600, color: T.textDim, letterSpacing: '0.06em', textTransform: 'uppercase', borderBottom: `1px solid ${T.border}`, whiteSpace: 'nowrap' }}>
+                <th key={key} style={{ padding: '7px 12px', textAlign: 'left', fontSize: 11, fontWeight: 600, color: '#ffffff', letterSpacing: '0.06em', textTransform: 'uppercase', border: '1px solid #4472C4', whiteSpace: 'nowrap', fontFamily: 'Aptos, Calibri, Arial, sans-serif' }}>
                   {key}
                 </th>
               ))}
               {/* Drill-down column */}
-              <th style={{ padding: '10px 16px', borderBottom: `1px solid ${T.border}`, width: 32 }} />
+              <th style={{ padding: '7px 12px', border: '1px solid #4472C4', width: 32, background: '#4472C4' }} />
             </tr>
           </thead>
           <tbody>
             {data.map((row, i) => {
               const isExpanded = expandedRow === i
               const hasIncidents = row['Total Incidents'] !== '--' && Number(row['Total Incidents']) > 0
+              const bandBg = i % 2 === 1 ? '#D9E1F2' : '#ffffff'
+              const expandedBg = '#BDD0EE'
               return (
                 <>
                   <tr key={i}
-                    style={{ borderBottom: `1px solid ${T.border}`, transition: 'background 0.1s', cursor: hasIncidents ? 'pointer' : 'default', background: isExpanded ? accentBg : 'transparent' }}
+                    style={{ transition: 'background 0.1s', cursor: hasIncidents ? 'pointer' : 'default', background: isExpanded ? expandedBg : bandBg }}
                     onClick={() => hasIncidents && setExpandedRow(isExpanded ? null : i)}
-                    onMouseEnter={e => { if (!isExpanded) e.currentTarget.style.background = T.surface2 }}
-                    onMouseLeave={e => { if (!isExpanded) e.currentTarget.style.background = 'transparent' }}>
+                    onMouseEnter={e => { if (!isExpanded) e.currentTarget.style.background = '#BDD0EE' }}
+                    onMouseLeave={e => { if (!isExpanded) e.currentTarget.style.background = isExpanded ? expandedBg : bandBg }}>
                     {Object.entries(row).map(([key, value], j) => (
-                      <td key={j} style={{ padding: '12px 20px', whiteSpace: 'nowrap', fontSize: 13 }}>
+                      <td key={j} style={{ padding: '7px 12px', whiteSpace: 'nowrap', fontSize: 12, fontFamily: 'Aptos, Calibri, Arial, sans-serif', border: '1px solid #4472C4', color: '#000000' }}>
                         {renderCell(key, value, j, T)}
                       </td>
                     ))}
-                    <td style={{ padding: '12px 16px', textAlign: 'center' }}>
+                    <td style={{ padding: '7px 12px', textAlign: 'center', border: '1px solid #4472C4' }}>
                       {hasIncidents && (
-                        <span style={{ fontSize: 10, color: T.textDim, transition: 'transform 0.15s', display: 'inline-block', transform: isExpanded ? 'rotate(180deg)' : 'rotate(0deg)' }}>▾</span>
+                        <span style={{ fontSize: 10, color: '#4472C4', transition: 'transform 0.15s', display: 'inline-block', transform: isExpanded ? 'rotate(180deg)' : 'rotate(0deg)' }}>▾</span>
                       )}
                     </td>
                   </tr>
                   {isExpanded && (
-                    <tr key={`${i}-detail`} style={{ background: accentBg }}>
-                      <td colSpan={Object.keys(row).length + 1} style={{ padding: '12px 20px 16px', borderBottom: `1px solid ${T.border}` }}>
-                        <DrillDown row={row} accent={accentColor} />
+                    <tr key={`${i}-detail`} style={{ background: expandedBg }}>
+                      <td colSpan={Object.keys(row).length + 1} style={{ padding: '12px 20px 16px', border: '1px solid #4472C4' }}>
+                        <DrillDown row={row} accent='#4472C4' />
                       </td>
                     </tr>
                   )}

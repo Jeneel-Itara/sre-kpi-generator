@@ -13,9 +13,9 @@ export default function CopyButton({ tableRef, text }) {
         const rows = Array.from(tableRef.current.querySelectorAll('tbody tr')).map(tr =>
           Array.from(tr.querySelectorAll('td')).map(td => td.innerText)
         )
-        const th = 'border:1px solid #d1c4b0;padding:7px 12px;background:#5c4030;color:#f5f0e8;text-align:left;font-family:Calibri,Arial,sans-serif;font-size:11pt;font-weight:600;white-space:nowrap;'
-        const td0 = 'border:1px solid #e8e0d0;padding:7px 12px;color:#2c2018;text-align:left;font-family:Calibri,Arial,sans-serif;font-size:11pt;white-space:nowrap;'
-        const td1 = 'border:1px solid #e8e0d0;padding:7px 12px;color:#2c2018;background:#faf7f2;text-align:left;font-family:Calibri,Arial,sans-serif;font-size:11pt;white-space:nowrap;'
+        const th = 'border:1px solid #4472C4;padding:7px 12px;background:#4472C4;color:#ffffff;text-align:left;font-family:Aptos,Calibri,Arial,sans-serif;font-size:11pt;font-weight:600;white-space:nowrap;'
+        const td0 = 'border:1px solid #4472C4;padding:7px 12px;color:#000000;background:#ffffff;text-align:left;font-family:Aptos,Calibri,Arial,sans-serif;font-size:11pt;white-space:nowrap;'
+        const td1 = 'border:1px solid #4472C4;padding:7px 12px;color:#000000;background:#D9E1F2;text-align:left;font-family:Aptos,Calibri,Arial,sans-serif;font-size:11pt;white-space:nowrap;'
         html = `<html><body><table style="border-collapse:collapse;">
           <thead><tr>${headers.map(h => `<th style="${th}">${h}</th>`).join('')}</tr></thead>
           <tbody>${rows.map((cells, i) => `<tr>${cells.map(c => `<td style="${i % 2 === 0 ? td0 : td1}">${c}</td>`).join('')}</tr>`).join('')}</tbody>
