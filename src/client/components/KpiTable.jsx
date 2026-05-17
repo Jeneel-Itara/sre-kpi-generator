@@ -43,12 +43,12 @@ export default function KpiTable({ title, data, filename, accent = 'amber' }) {
           <thead>
             <tr style={{ background: '#4472C4' }}>
               {Object.keys(data[0]).map(key => (
-                <th key={key} style={{ padding: '7px 12px', textAlign: 'left', fontSize: 11, fontWeight: 600, color: '#ffffff', letterSpacing: '0.06em', textTransform: 'uppercase', border: '1px solid #4472C4', whiteSpace: 'nowrap', fontFamily: 'Aptos, Calibri, Arial, sans-serif' }}>
+                <th key={key} style={{ padding: '4px 10px', textAlign: 'left', fontSize: 11, fontWeight: 600, color: '#ffffff', letterSpacing: '0.06em', textTransform: 'uppercase', border: '1px solid #4472C4', whiteSpace: 'nowrap', fontFamily: 'Aptos, Calibri, Arial, sans-serif' }}>
                   {key}
                 </th>
               ))}
               {/* Drill-down column */}
-              <th style={{ padding: '7px 12px', border: '1px solid #4472C4', width: 32, background: '#4472C4' }} />
+              <th style={{ padding: '4px 10px', border: '1px solid #4472C4', width: 32, background: '#4472C4' }} />
             </tr>
           </thead>
           <tbody>
@@ -65,11 +65,11 @@ export default function KpiTable({ title, data, filename, accent = 'amber' }) {
                     onMouseEnter={e => { if (!isExpanded) e.currentTarget.style.background = '#BDD0EE' }}
                     onMouseLeave={e => { if (!isExpanded) e.currentTarget.style.background = isExpanded ? expandedBg : bandBg }}>
                     {Object.entries(row).map(([key, value], j) => (
-                      <td key={j} style={{ padding: '7px 12px', whiteSpace: 'nowrap', fontSize: 12, fontFamily: 'Aptos, Calibri, Arial, sans-serif', border: '1px solid #4472C4', color: '#000000' }}>
+                      <td key={j} style={{ padding: '4px 10px', whiteSpace: 'nowrap', fontSize: 12, fontFamily: 'Aptos, Calibri, Arial, sans-serif', border: '1px solid #4472C4', color: '#000000' }}>
                         {renderCell(key, value, j, T)}
                       </td>
                     ))}
-                    <td style={{ padding: '7px 12px', textAlign: 'center', border: '1px solid #4472C4' }}>
+                    <td style={{ padding: '4px 10px', textAlign: 'center', border: '1px solid #4472C4' }}>
                       {hasIncidents && (
                         <span style={{ fontSize: 10, color: '#4472C4', transition: 'transform 0.15s', display: 'inline-block', transform: isExpanded ? 'rotate(180deg)' : 'rotate(0deg)' }}>▾</span>
                       )}
