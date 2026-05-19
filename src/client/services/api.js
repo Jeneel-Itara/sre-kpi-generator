@@ -1,34 +1,49 @@
 /**
- * api.js — all requests go to /api/* on the same origin.
- * No backend URL to configure. Works in dev (Vite proxies to :3000)
- * and in production (Express serves everything).
+ * api.js — fully client-side implementation for GitHub Pages.
+ * All processing happens in the browser using xlsx.
+ * No server required.
  */
 
-export async function uploadFile(file, filters = {}) {
-  const form = new FormData()
-  form.append('file', file)
-  if (filters.shift)     form.append('shift', filters.shift)
-  if (filters.date_from) form.append('date_from', filters.date_from)
-  if (filters.date_to)   form.append('date_to', filters.date_to)
+import * as XLSX from 'xlsx'
+import { validateRows, applyShiftFilter, applyDateFilter, generateOverallTable, generateCustomerTable } from '../lib/kpi.js'
+import { getPublicConfig, updateConfig as _updateConfig } from '../lib/config.js'
 
-  const res = await fetch('/api/kpi/generate', { method: 'POST', body: form })
-  const data = await res.json()
-  if (!res.ok) throw new Error(data.error || 'Upload failed')
-  return data
+export async function uploadFile(file, filters = {}) {
+  const buffer = await file.arrayBuffer()
+  const workbook = XLSX.read(buffer, { type: 'array', cellDates: true })
+  const sheet = workbook.Sheets[workbook.SheetNames[0]]
+  const rawRows = XLSX.utils.sheet_to_json(sheet, { defval: null })
+
+  const totalRows = rawRows.length
+  const { validRows, rejectedRows, skippedCount } = validateRows(rawRows)
+  const filtered = applyDateFilter(
+    applyShiftFilter(validRows, filters.shift || null),
+    filters.date_from || null,
+    filters.date_to   || null,
+  )
+
+  return {
+    overall_table:  generateOverallTable(filtered),
+    customer_table: generateCustomerTable(filtered),
+    rejected_rows:  rejectedRows,
+    meta: {
+      total_rows:     totalRows,
+      valid_rows:     validRows.length,
+      skipped_count:  skippedCount,
+      rejected_count: rejectedRows.length,
+      shift_filter:   filters.shift || null,
+      date_range:     (filters.date_from || filters.date_to)
+        ? `${filters.date_from || '?'} to ${filters.date_to || '?'}`
+        : null,
+    },
+  }
 }
 
 export async function getSettings() {
-  const res = await fetch('/api/settings')
-  return res.json()
+  return getPublicConfig()
 }
 
 export async function saveSettings(settings) {
-  const res = await fetch('/api/settings', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(settings),
-  })
-  const data = await res.json()
-  if (!res.ok) throw new Error(data.error || 'Failed to save settings')
-  return data
+  const updated = _updateConfig(settings)
+  return { ok: true, settings: updated }
 }
