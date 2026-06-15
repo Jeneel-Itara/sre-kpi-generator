@@ -11,7 +11,6 @@ A deterministic KPI generation tool for SRE/NOC shift reporting. Upload an Excel
 - Upload `.xlsx`, `.xls`, or `.csv` shift reports
 - Generates Overall Shift KPIs and Customer-wise Shift KPIs
 - MTTA / MTTR calculated per incident, averaged per severity
-- SLA breach detection with configurable thresholds
 - Copy tables directly to clipboard — pastes as a formatted table in Outlook
 - Export to CSV, Excel, or PNG
 - Shift filter (Day / Night) and date range filter
@@ -102,17 +101,10 @@ All other severity values (blank, sev3, unknown) are silently skipped.
 
 | Metric | Formula |
 |--------|---------|
-| MTTA | `ACK At − Created` |
+| MTTA | Hardcoded to 30 seconds (tool limitation) |
 | MTTR | `Resolved At − Created` |
 | Avg MTTA | `Sum(MTTA) / incident count` per severity |
 | Avg MTTR | `Sum(MTTR) / incident count` per severity |
-| IMR breach | `MTTR > SLA threshold` |
-
-**Default SLA thresholds:**
-- Severity 1 → 5 minutes
-- Severity 2 → 10 minutes
-
-Thresholds are configurable in the Settings page — changes take effect immediately without a restart.
 
 ---
 
@@ -166,7 +158,7 @@ npm install -g vercel
 vercel --prod
 ```
 
-> Note: On Vercel, SLA threshold settings reset on cold starts since there is no persistent storage. KPI calculations are always correct.
+> Note: On Vercel, settings reset on cold starts since there is no persistent storage.
 
 ---
 

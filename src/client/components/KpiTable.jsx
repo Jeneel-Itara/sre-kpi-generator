@@ -125,7 +125,7 @@ function renderCell(key, value, j, T) {
     )
   }
 
-  if (key === 'IMR') {
+  if (key === 'IMR' || key === 'RCA') {
     const breached = String(value).includes('breached')
     return (
       <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 12, color: breached ? T.red : T.green }}>

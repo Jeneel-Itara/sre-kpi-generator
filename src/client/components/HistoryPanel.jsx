@@ -35,7 +35,6 @@ export default function HistoryPanel({ history, onLoad, onDelete }) {
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
         {history.map((entry, i) => {
           const totalIncidents = (entry.overall_table || []).reduce((s, r) => s + (r['Total Incidents'] !== '--' ? Number(r['Total Incidents']) : 0), 0)
-          const breaches = (entry.customer_table || []).filter(r => String(r.IMR).includes('breached')).length
           const teams = [...new Set((entry.customer_table || []).map(r => r.Team))].length
 
           return (
@@ -66,9 +65,6 @@ export default function HistoryPanel({ history, onLoad, onDelete }) {
                   )}
                   <span style={{ fontSize: 11, color: T.amber, fontVariantNumeric: 'tabular-nums' }}>{totalIncidents} incidents</span>
                   <span style={{ fontSize: 11, color: T.textDim }}>{teams} team{teams !== 1 ? 's' : ''}</span>
-                  {breaches > 0 && (
-                    <span style={{ fontSize: 11, color: T.red, fontWeight: 600 }}>{breaches} SLA breach{breaches !== 1 ? 'es' : ''}</span>
-                  )}
                 </div>
               </div>
 

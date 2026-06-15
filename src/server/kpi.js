@@ -97,7 +97,7 @@ export function validateRows(rows) {
       created,
       ack,
       resolved,
-      mttaSeconds: (ack - created) / 1000,
+      mttaSeconds: 30,
       mttrSeconds: (resolved - created) / 1000,
     })
   })
@@ -153,13 +153,11 @@ export function generateOverallTable(rows) {
   return trackedSeverities.map(sev => {
     const group = rows.filter(r => r.severity === sev)
     if (group.length === 0) {
-      return { Severity: sev, 'Total Incidents': '--', MTTA: '--', MTTR: '--', 'Updates Adherence': '--', 'Playbook Adherence': '--', IMR: '--' }
+      return { Severity: sev, 'Total Incidents': '--', MTTA: '--', MTTR: '--', 'Updates Adherence': '--', 'Playbook Adherence': '--' }
     }
 
     const avgMtta = group.reduce((s, r) => s + r.mttaSeconds, 0) / group.length
     const avgMttr = group.reduce((s, r) => s + r.mttrSeconds, 0) / group.length
-    const threshold = config.slaThresholds[sev]
-    const breachCount = threshold != null ? group.filter(r => r.mttrSeconds > threshold).length : 0
 
     return {
       Severity: sev,
@@ -168,9 +166,6 @@ export function generateOverallTable(rows) {
       MTTR: secondsToHms(avgMttr),
       'Updates Adherence': '--',
       'Playbook Adherence': '--',
-      IMR: breachCount > 0
-        ? `${breachCount} incident(s) breached SLA`
-        : 'IMR not created as per alert resolution criteria.',
     }
   })
 }
@@ -188,8 +183,6 @@ export function generateCustomerTable(rows) {
     const [team, severity] = key.split('|||')
     const avgMtta = group.reduce((s, r) => s + r.mttaSeconds, 0) / group.length
     const avgMttr = group.reduce((s, r) => s + r.mttrSeconds, 0) / group.length
-    const threshold = config.slaThresholds[severity]
-    const breachCount = threshold != null ? group.filter(r => r.mttrSeconds > threshold).length : 0
 
     return {
       Team: team,
@@ -197,9 +190,7 @@ export function generateCustomerTable(rows) {
       'Total Incidents': group.length,
       MTTA: secondsToHms(avgMtta),
       MTTR: secondsToHms(avgMttr),
-      IMR: breachCount > 0
-        ? `${breachCount} incident(s) breached SLA`
-        : 'IMR not created as per alert resolution criteria.',
+      RCA: 'RCA not created as per alert resolution criteria.',
     }
   })
 }

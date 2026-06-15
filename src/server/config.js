@@ -14,11 +14,7 @@ export const config = {
     p2:   'Severity 2',
   },
 
-  // SLA thresholds in seconds. Incidents where MTTR > threshold are IMR-breached.
-  slaThresholds: {
-    'Severity 1': 5  * 60,   // 300s
-    'Severity 2': 10 * 60,   // 600s
-  },
+
 
   // Shift windows (24h time)
   shiftWindows: {
@@ -31,15 +27,11 @@ export const config = {
 }
 
 export function updateConfig(patch) {
-  if (patch.sla_sev1 !== undefined) config.slaThresholds['Severity 1'] = Number(patch.sla_sev1) * 60
-  if (patch.sla_sev2 !== undefined) config.slaThresholds['Severity 2'] = Number(patch.sla_sev2) * 60
   if (patch.showSkippedCount !== undefined) config.showSkippedCount = Boolean(patch.showSkippedCount)
 }
 
 export function getPublicConfig() {
   return {
-    sla_sev1: config.slaThresholds['Severity 1'] / 60,
-    sla_sev2: config.slaThresholds['Severity 2'] / 60,
     showSkippedCount: config.showSkippedCount,
   }
 }

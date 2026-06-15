@@ -142,7 +142,6 @@ export default function App() {
   const totalIncidents = overall.reduce((s, r) => s + (r['Total Incidents'] !== '--' ? Number(r['Total Incidents']) : 0), 0)
   const teams          = [...new Set(customer.map(r => r.Team))].length
   const sev2Row        = overall.find(r => r.Severity === 'Severity 2')
-  const breachCount    = customer.filter(r => String(r.IMR).includes('breached')).length
 
   return (
     <ThemeCtx.Provider value={T}>
@@ -289,7 +288,6 @@ export default function App() {
                       <StatCard label="Total Incidents" value={totalIncidents} sub="sev1 + sev2" variant="amber" />
                       <StatCard label="Teams" value={teams} sub="with tracked alerts" variant="neutral" />
                       <StatCard label="Avg MTTR · Sev2" value={sev2Row?.MTTR !== '--' ? sev2Row?.MTTR : '—'} sub="hh:mm:ss" variant={sev2Row?.MTTR !== '--' ? 'green' : 'neutral'} />
-                      <StatCard label="SLA Breaches" value={breachCount} sub={breachCount > 0 ? 'incidents exceeded SLA' : 'all within SLA'} variant={breachCount > 0 ? 'red' : 'green'} />
                     </div>
 
                     <KpiTable title="Overall Shift KPIs"      data={overall}  filename="overall-kpi"  accent="amber" />
