@@ -37,6 +37,7 @@ function load() {
 export const config = load()
 
 export function getPublicConfig() {
+  return {
     showSkippedCount: config.showSkippedCount,
   }
 }
